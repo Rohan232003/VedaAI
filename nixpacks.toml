@@ -1,0 +1,19 @@
+[providers]
+  node = true
+
+[variables]
+  # Tell Puppeteer to use the installed Chromium instead of downloading its own
+  PUPPETEER_SKIP_CHROMIUM_DOWNLOAD = "true"
+  PUPPETEER_EXECUTABLE_PATH = "/usr/bin/google-chrome"
+
+[phases.setup]
+  # Install the Chromium browser and its dependencies required for Puppeteer
+  nixPkgs = ["...", "google-chrome"]
+
+[phases.build]
+  # Build both the web and server apps via Turborepo
+  cmds = ["npm run build"]
+
+[start]
+  # Start the server (Railway will run this command in production)
+  cmd = "npm run start --workspace=apps/server"
