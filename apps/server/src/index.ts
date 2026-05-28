@@ -25,9 +25,17 @@ app.use(cors({
   origin: (origin, callback) => {
     // Allow requests with no origin (e.g. mobile apps, Postman, server-to-server)
     if (!origin) return callback(null, true);
-    if (allowedOrigins.includes(origin)) {
+    
+    // Automatically allow Vercel domains, localhost, or the exact FRONTEND_URL
+    if (
+      origin.startsWith('http://localhost') || 
+      origin.includes('vercel.app') || 
+      allowedOrigins.includes(origin)
+    ) {
       return callback(null, true);
     }
+    
+    console.warn(`[CORS] Rejected origin: ${origin}`);
     return callback(new Error(`CORS: Origin ${origin} not allowed`));
   },
   credentials: true,
