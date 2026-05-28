@@ -19,24 +19,23 @@ ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
 # Set the working directory
 WORKDIR /app
 
-# Copy package files
-COPY package.json package-lock.json ./
-COPY turbo.json ./
+# Copy package files first for better Docker layer caching
+COPY package.json package-lock.json turbo.json ./
 COPY apps/server/package.json ./apps/server/
-COPY apps/web/package.json ./apps/web/
 COPY packages/shared/package.json ./packages/shared/
 
-# Install dependencies
-RUN npm ci
+# Install dependencies (only server + shared, skip web)
+RUN npm ci --workspace=apps/server --workspace=packages/shared --include-workspace-root
 
-# Copy the rest of the application code
-COPY . .
+# Copy only the server and shared source code (skip apps/web entirely)
+COPY apps/server/ ./apps/server/
+COPY packages/shared/ ./packages/shared/
 
-# Build the apps
-RUN npx turbo run build
+# Build only the server workspace
+RUN npx turbo run build --filter=@vedaai/server
 
 # Expose the port the app runs on
 EXPOSE 5000
 
-# Start the server
-CMD ["npm", "run", "start", "--workspace=apps/server"]
+# Start the server (shell form so --workspace is passed correctly to npm)
+CMD npm run start --workspace=apps/server
