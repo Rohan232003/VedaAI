@@ -72,7 +72,7 @@ export async function processGenerationJob(job: Job): Promise<void> {
     broadcastMessage({
       type: 'job_progress',
       assignmentId,
-      data: { message: 'Generating questions with AI...', progress: 40 },
+      data: { message: 'Generating questions...', progress: 40 },
     });
 
     // Generate paper using AI

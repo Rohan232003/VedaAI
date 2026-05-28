@@ -79,7 +79,7 @@ export default function AssignmentOutput() {
       <div className="output-page fade-in">
         <div className="output-banner">
           <div className="output-banner-text">
-            <div className="output-banner-title">🤖 AI is generating your question paper</div>
+            <div className="output-banner-title">Generating your question paper</div>
             <div className="output-banner-subtitle">
               {activeStatus?.message || 'Please wait while we create your paper...'}
             </div>
