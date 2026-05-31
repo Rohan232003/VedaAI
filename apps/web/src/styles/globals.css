@@ -854,6 +854,7 @@ input, textarea, select { font-family: inherit; }
   .exam-student-info { grid-template-columns: 1fr; }
   .exam-meta-row { flex-direction: column; gap: 4px; text-align: center; }
   .btn-fab { bottom: 90px; }
+  .dash-create-float { bottom: 90px; }
   .output-banner { flex-direction: column; text-align: center; padding: 20px; }
   .output-actions { flex-direction: column; }
 }
